@@ -3,9 +3,20 @@ class Task < ActiveRecord::Base
 
   validates :name, presence: true
   validates :project, presence: true, if: proc { |m| m.new_project_name.blank? }
-  validates :new_project_name, presence: true, if: proc { |m| m.project_id.blank? }
+  validates_associated :project
 
   belongs_to :project
+
+  before_validation :create_project_if_required
+
+  private
+
+    def create_project_if_required
+      if new_project_name.present?
+        project = Project.create(name: new_project_name)
+        self.project = project
+      end
+    end
 end
 
 # == Schema Information
