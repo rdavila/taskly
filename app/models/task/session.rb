@@ -5,8 +5,15 @@ class Task::Session < ActiveRecord::Base
 
   before_create :flag_as_running
   after_create  :finish_other_running_sessions
+  before_save   :set_finished_at
 
   private
+    def set_finished_at
+      if state_changed? && state == FINISHED_STATE
+        self.finished_at = Time.now
+      end
+    end
+
     def flag_as_running
       self.state = RUNNING_STATE
     end
