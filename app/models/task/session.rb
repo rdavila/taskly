@@ -1,5 +1,16 @@
 class Task::Session < ActiveRecord::Base
   belongs_to :task
+
+  include AASM
+
+  aasm do
+    state :running, initial: true
+    state :finished
+
+    event :finish do
+      transitions from: :running, to: :finished
+    end
+  end
 end
 
 # == Schema Information
@@ -11,6 +22,7 @@ end
 #  finished_at :datetime
 #  created_at  :datetime
 #  updated_at  :datetime
+#  state       :string(255)
 #
 # Indexes
 #
