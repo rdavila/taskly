@@ -1,9 +1,13 @@
 %h1 Tasks
 %p= link_to 'Create a Task', new_task_path
 
+#errors
+
 - if @tasks.present?
   %ul
     - @tasks.each do |task|
-      %li= task.name
+      %li
+        = task.name
+        = link_to 'Start', start_task_task_sessions_path(task.id), remote: true, method: :post
 - else
   %p You don't have tasks. #{link_to 'Create your first task', new_task_path}

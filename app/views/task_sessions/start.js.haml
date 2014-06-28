@@ -1,0 +1,6 @@
+- if @task_session.persisted?
+  :plain
+    console.log('Success!'):
+- else
+  :plain
+    $('#errors').html("#{j(render('shared/error_messages', model: @task_session))}");

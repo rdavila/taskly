@@ -3,7 +3,7 @@ class Task::Session < ActiveRecord::Base
 
   include AASM
 
-  aasm do
+  aasm column: 'state' do
     state :running, initial: true
     state :finished
 

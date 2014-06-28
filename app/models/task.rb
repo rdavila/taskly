@@ -6,6 +6,7 @@ class Task < ActiveRecord::Base
   validates_associated :project
 
   belongs_to :project
+  has_many   :sessions
 
   before_validation :create_project_if_required
 
