@@ -1,6 +1,10 @@
 %h1 Tasks
 %p= link_to 'Create a Task', new_task_path
 
+%p
+  - 6.days.ago.to_date.upto(Date.today).each do |date|
+    %span= link_to date.to_s, tasks_path(d: date)
+
 #errors
 
 - if @tasks.present?

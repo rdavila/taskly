@@ -20,13 +20,20 @@ class TasksController < ApplicationController
     end
 
     def load_tasks
-      @tasks ||= Task.all
+      date = params[:d].present? ? Date.parse(params[:d]) : Date.today
+      @tasks ||= task_scope.where("DATE(created_at) = ?", date)
+    rescue ArgumentError
+      not_found
     end
 
     def save_task
       if @task.save
         redirect_to tasks_url
       end
+    end
+
+    def task_scope
+      Task.includes(:sessions).all
     end
 
     def task_params
