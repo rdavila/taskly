@@ -1,3 +1,9 @@
 %h1 Tasks
 %p= link_to 'Create a Task', new_task_path
-%p= f.submit 'Create'
+
+- if @tasks.present?
+  %ul
+    - @tasks.each do |task|
+      %li= task.name
+- else
+  %p You don't have tasks. #{link_to 'Create your first task', new_task_path}

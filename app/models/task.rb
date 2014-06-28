@@ -1,7 +1,9 @@
 class Task < ActiveRecord::Base
   attr_accessor :new_project_name
 
-  validates :name, :project, presence: true
+  validates :name, presence: true
+  validates :project, presence: true, if: proc { |m| m.new_project_name.blank? }
+  validates :new_project_name, presence: true, if: proc { |m| m.project_id.blank? }
 
   belongs_to :project
 end
