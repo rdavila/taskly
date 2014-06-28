@@ -1,6 +1,10 @@
 class Task::Session < ActiveRecord::Base
   belongs_to :task
 
+  after_create :finish_other_running_sessions
+
+  FINISHED_STATE = 'finished'
+
   include AASM
 
   aasm column: 'state' do
@@ -11,6 +15,12 @@ class Task::Session < ActiveRecord::Base
       transitions from: :running, to: :finished
     end
   end
+
+  private
+
+    def finish_other_running_sessions
+      task.sessions.running.where.not(id: id).update_all(state: FINISHED_STATE)
+    end
 end
 
 # == Schema Information
