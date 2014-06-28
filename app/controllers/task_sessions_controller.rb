@@ -12,7 +12,7 @@ class TaskSessionsController < ApplicationController
 
   def stop
     load_task_session
-    @task_session.finish
+    @task_session.mark_as_finished
 
     respond_to do |format|
       format.js do

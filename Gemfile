@@ -41,7 +41,6 @@ gem 'spring',        group: :development
 # gem 'debugger', group: [:development, :test]
 
 gem 'haml-rails', '0.5.3'
-gem 'aasm', '3.2.0'
 
 group :development do
   gem 'annotate', '2.6.5'

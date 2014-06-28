@@ -1,22 +1,15 @@
 class Task::Session < ActiveRecord::Base
+  include Task::SessionStates
+
   belongs_to :task
 
-  after_create :finish_other_running_sessions
-
-  FINISHED_STATE = 'finished'
-
-  include AASM
-
-  aasm column: 'state' do
-    state :running, initial: true
-    state :finished
-
-    event :finish do
-      transitions from: :running, to: :finished
-    end
-  end
+  before_create :flag_as_running
+  after_create  :finish_other_running_sessions
 
   private
+    def flag_as_running
+      self.state = RUNNING_STATE
+    end
 
     def finish_other_running_sessions
       task.sessions.running.where.not(id: id).update_all(state: FINISHED_STATE)
