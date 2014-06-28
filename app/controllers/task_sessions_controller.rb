@@ -10,7 +10,24 @@ class TaskSessionsController < ApplicationController
     end
   end
 
+  def stop
+    load_task_session
+    @task_session.finish
+
+    respond_to do |format|
+      format.js do
+        render :stop, status: save_task_session ? 200 : 422
+      end
+    end
+  end
+
   private
+    def load_task_session
+      @task_session ||= begin 
+        load_task
+        @task.sessions.find(params[:id])
+      end
+    end
 
     def build_task_session
       load_task

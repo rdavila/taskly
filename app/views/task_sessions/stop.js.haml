@@ -1,4 +1,4 @@
-- if @task_session.persisted?
+- if @task_session.finished?
   :plain
     $("li#task_#{@task_session.task.id} .action_link").html("#{j(render('tasks/action_link', task: @task_session.task))}");
 - else

@@ -6,8 +6,8 @@
 - if @tasks.present?
   %ul
     - @tasks.each do |task|
-      %li
+      %li{ id: "task_#{task.id}" }
         = task.name
-        = link_to 'Start', start_task_task_sessions_path(task.id), remote: true, method: :post
+        .action_link= render 'action_link', task: task
 - else
   %p You don't have tasks. #{link_to 'Create your first task', new_task_path}

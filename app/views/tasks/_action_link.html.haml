@@ -1,0 +1,4 @@
+- if task.has_a_running_session?
+  = link_to 'Stop', stop_task_task_session_path(task.id, task.running_session.id), remote: true, method: :put
+- else
+  = link_to 'Start', start_task_task_sessions_path(task.id), remote: true, method: :post

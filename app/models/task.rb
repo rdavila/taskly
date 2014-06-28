@@ -10,6 +10,14 @@ class Task < ActiveRecord::Base
 
   before_validation :create_project_if_required
 
+  def has_a_running_session?
+    running_session.present?
+  end
+
+  def running_session
+    sessions.running.first
+  end
+
   private
 
     def create_project_if_required
