@@ -1,0 +1,12 @@
+%h1 New Task
+
+= form_for @task do |f|
+  %p
+    = f.label :project_id
+    = f.select :project_id, Project.all.map { |p| [p.name, p.id] }, include_blank: '- Choose a Project -'
+    %span Or
+    = f.text_field :new_project_name, placeholder: 'Create a new Project'
+  %p
+    = f.label :name
+    = f.text_field :name
+  %p= f.submit 'Create'

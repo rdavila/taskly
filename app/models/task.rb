@@ -1,4 +1,6 @@
 class Task < ActiveRecord::Base
+  attr_accessor :new_project_name
+
   validates :name, :project, presence: true
 
   belongs_to :project
