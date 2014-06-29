@@ -20,13 +20,19 @@ class TasksController < ApplicationController
     end
 
     def load_tasks
-      @filtered_date = params[:d].present? ? Date.parse(params[:d]) : Date.current
+      @filtered_date       = params[:d].present? ? Date.parse(params[:d]) : Date.current
+      time_zone_identifier = Time.zone.tzinfo.identifier
 
-      if @filtered_date == Date.today
-        @tasks ||= task_scope.where("DATE(created_at) = ?", @filtered_date)
+      if @filtered_date == Date.current
+        query = "DATE(created_at AT TIME ZONE 'UTC' AT TIME ZONE ?) = ?"
+        @tasks ||= task_scope.where(query, time_zone_identifier, @filtered_date)
       else
+        query = <<-eos
+          DATE(task_sessions.created_at AT TIME ZONE 'UTC' AT TIME ZONE ?) = ? 
+          AND DATE(task_sessions.finished_at AT TIME ZONE 'UTC' AT TIME ZONE ?) = ?
+        eos
         @tasks ||= task_scope.joins(:sessions)
-          .where("DATE(task_sessions.created_at) = ? AND DATE(task_sessions.finished_at) = ?", @filtered_date, @filtered_date)
+                    .where(query, time_zone_identifier, @filtered_date, time_zone_identifier, @filtered_date)
       end
     rescue ArgumentError
       not_found

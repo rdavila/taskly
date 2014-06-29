@@ -20,7 +20,8 @@ class Task < ActiveRecord::Base
 
   def duration(date = nil)
     if date
-      sessions.finished.where("DATE(finished_at) = ?", date).to_a.sum(&:duration)
+      query = "DATE(finished_at AT TIME ZONE 'UTC' AT TIME ZONE ?) = ?"
+      sessions.finished.where(query, Time.zone.tzinfo.identifier, date).to_a.sum(&:duration)
     else
       sessions.finished.to_a.sum(&:duration)
     end
