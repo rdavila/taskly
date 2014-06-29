@@ -44,6 +44,7 @@ gem 'haml-rails', '0.5.3'
 
 group :production do
   gem 'rails_12factor', '0.0.2'
+  gem 'unicorn', '4.8.3'
 end
 
 group :development do
