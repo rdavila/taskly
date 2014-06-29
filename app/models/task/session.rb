@@ -7,6 +7,11 @@ class Task::Session < ActiveRecord::Base
   after_create  :finish_other_running_sessions
   before_save   :set_finished_at
 
+  def duration
+    return (finished_at - created_at).to_i if finished?
+    0
+  end
+
   private
     def set_finished_at
       if state_changed? && state == FINISHED_STATE

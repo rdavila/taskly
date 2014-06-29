@@ -20,8 +20,14 @@ class TasksController < ApplicationController
     end
 
     def load_tasks
-      date = params[:d].present? ? Date.parse(params[:d]) : Date.today
-      @tasks ||= task_scope.where("DATE(created_at) = ?", date)
+      @filtered_date = params[:d].present? ? Date.parse(params[:d]) : Date.current
+
+      if @filtered_date == Date.today
+        @tasks ||= task_scope.where("DATE(created_at) = ?", @filtered_date)
+      else
+        @tasks ||= task_scope.joins(:sessions)
+          .where("DATE(task_sessions.created_at) = ? AND DATE(task_sessions.finished_at) = ?", @filtered_date, @filtered_date)
+      end
     rescue ArgumentError
       not_found
     end

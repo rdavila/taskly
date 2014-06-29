@@ -18,6 +18,14 @@ class Task < ActiveRecord::Base
     sessions.running.first
   end
 
+  def duration(date = nil)
+    if date
+      sessions.finished.where("DATE(finished_at) = ?", date).to_a.sum(&:duration)
+    else
+      sessions.finished.to_a.sum(&:duration)
+    end
+  end
+
   private
 
     def create_project_if_required
