@@ -1,4 +1,6 @@
 - if @task_sessions.present?
+  %strong Note:
+  Your changes will be automatically saved when the selectors are changed.
   #sessions_panel
     %ul
       - @task_sessions.group_by { |ts| ts.task.name }.each do |task_name, task_sessions|
