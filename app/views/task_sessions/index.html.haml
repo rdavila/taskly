@@ -1,0 +1,14 @@
+- if @task_sessions.present?
+  #sessions_panel
+    %ul
+      - @task_sessions.group_by { |ts| ts.task.name }.each do |task_name, task_sessions|
+        %li
+          = task_name
+          %ul
+            - task_sessions.each do |ts|
+              %li
+                = form_for ts, remote: true do |f|
+                  %strong Started at:
+                  = f.datetime_select :created_at, discard_year: true, include_seconds: true
+                  %strong Finished at:
+                  = f.datetime_select :finished_at, discard_year: true, include_seconds: true

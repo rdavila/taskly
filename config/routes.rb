@@ -7,4 +7,6 @@ Rails.application.routes.draw do
       put  :stop, on: :member
     end
   end
+
+  resources :task_sessions, only: [:index, :update]
 end
