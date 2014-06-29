@@ -42,6 +42,10 @@ gem 'spring',        group: :development
 
 gem 'haml-rails', '0.5.3'
 
+group :production do
+  gem 'rails_12factor', '0.0.2'
+end
+
 group :development do
   gem 'annotate', '2.6.5'
   gem 'quiet_assets', '1.0.2'
