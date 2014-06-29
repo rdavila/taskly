@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
     raise ActionController::RoutingError.new('Not Found')
   end
 
-  def parse_datetime_params(params, label, utc_or_local = :local)
+  def parse_datetime_params(params, label, utc_or_local = :utc)
     begin
       year   = params[(label.to_s + '(1i)').to_sym].to_i
       month  = params[(label.to_s + '(2i)').to_sym].to_i
