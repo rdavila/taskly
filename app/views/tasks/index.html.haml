@@ -11,7 +11,7 @@
   %ul
     - @tasks.each do |task|
       %li{ id: "task_#{task.id}" }
-        = task.name
+        #{ task.project.name } &raquo; #{task.name}
         (Duration: #{task.duration(@filtered_date)})
         .action_link= render 'action_link', task: task
 - else
